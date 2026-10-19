@@ -132,7 +132,7 @@ class DownloadManager: NSObject, ObservableObject {
 					download.speed = 0
 					self._finishSegmented(download, fileURL: fileURL)
 				case .failure(let error):
-					guard !session.isCancelled else { return }
+					if download.segmented?.isCancelled == true { return }
 					download.speed = 0
 					NSLog("[Feather] segmented download failed (%@), falling back to single stream", error.localizedDescription)
 					self._startLegacyDownload(download)
