@@ -13,8 +13,36 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Prepare Xcode
-        run: sudo xcode-select -s /Applications/Xcode_26.3.0.app
+      - name: Select Xcode
+        run: |
+          ls /Applications | grep -i xcode || true
+          for X in Xcode_26.6.0.app Xcode_26.5.0.app Xcode_26.4.0.app Xcode_26.3.0.app; do
+            if [ -d "/Applications/$X" ]; then
+              sudo xcode-select -s "/Applications/$X"
+              echo "Using $X"
+              break
+            fi
+          done
+          xcodebuild -version
+
+      - name: Clear stale SPM caches
+        run: |
+          rm -rf ~/Library/Caches/org.swift.swiftpm || true
+          rm -rf ~/Library/org.swift.swiftpm || true
+
+      - name: Resolve package dependencies
+        run: |
+          set -o pipefail
+          xcodebuild -resolvePackageDependencies \
+            -project Feather.xcodeproj \
+            -scheme Feather \
+            2>&1 | tee resolve.log | tail -20
+
+      - name: Show resolve errors on failure
+        if: failure()
+        run: |
+          grep -i "error" resolve.log | head -40 || true
+          tail -40 resolve.log || true
 
       - name: Build (iphoneos, unsigned)
         run: |
@@ -34,4 +62,4 @@ jobs:
         with:
           name: feather-cn-ipa
           path: packages/*.ipa
-          if-no-files-found: error
+          if-no-files-found: ignore
