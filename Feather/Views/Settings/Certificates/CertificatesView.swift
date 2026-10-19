@@ -50,7 +50,7 @@ struct CertificatesView: View {
 						? String.localized("Certificate Expired")
 						: (worst.daysLeft == 0
 							? String.localized("Expires today")
-							: String.localized("Expires in %lld days", worst.daysLeft)))
+							: String.localized("Expires in %lld days", arguments: worst.daysLeft)))
 						.font(.subheadline)
 						.fontWeight(.semibold)
 					Text(verbatim: worst.nickname)

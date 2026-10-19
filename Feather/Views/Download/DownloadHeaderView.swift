@@ -72,7 +72,7 @@ struct DownloadItemView: View {
 			if speed > 0 {
 				HStack {
 					Label {
-						Text(verbatim: String.localized("Speed: %@", speed.formattedByteCount))
+						Text(verbatim: String.localized("Speed: %@", arguments: speed.formattedByteCount))
 					} icon: {
 						Image(systemName: "bolt.fill")
 					}

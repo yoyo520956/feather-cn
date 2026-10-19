@@ -49,7 +49,7 @@ struct StorageCleanerView: View {
 				Text(verbatim: _footerText())
 			}
 
-			NBSection {
+			NBSection(.localized("Clean All")) {
 				Button {
 					_cleanAll()
 				} label: {
@@ -58,7 +58,7 @@ struct StorageCleanerView: View {
 						if _isCleaning {
 							ProgressView()
 						} else {
-							Label(.localized("Clean All"), systemImage: "trash")
+							Label(.localized("Clean"), systemImage: "trash")
 								.foregroundColor(.red)
 						}
 						Spacer()
@@ -147,7 +147,7 @@ struct StorageCleanerView: View {
 			DispatchQueue.main.async {
 				self._isCleaning = false
 				let freed = before
-				self._freedText = String.localized("Freed %@", freed.formattedByteCount)
+				self._freedText = String.localized("Freed %@", arguments: freed.formattedByteCount)
 				self._recompute()
 			}
 		}

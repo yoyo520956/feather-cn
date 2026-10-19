@@ -35,7 +35,7 @@ final class SigningQueue: ObservableObject {
 
 	var progressText: String {
 		guard !items.isEmpty else { return "" }
-		return String.localized("Signing %lld of %lld", currentIndex, items.count)
+		return String.localized("Signing %lld of %lld", arguments: currentIndex, items.count)
 	}
 
 	private init() {}
@@ -115,7 +115,7 @@ final class SigningQueue: ObservableObject {
 		generator.notificationOccurred(failed > 0 ? .warning : .success)
 
 		let message = failed > 0
-			? String.localized("Batch signing finished with %lld failure(s)", failed)
+			? String.localized("Batch signing finished with %lld failure(s)", arguments: failed)
 			: String.localized("Batch signing completed")
 
 		UIAlertController.showAlertWithOk(

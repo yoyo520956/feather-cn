@@ -149,8 +149,9 @@ final class SegmentedDownloadSession: NSObject {
 				return total
 			}
 		}
-		if let len = response.expectedContentLength, len > 0 {
-			return Int64(len)
+		let len = response.expectedContentLength
+		if len > 0 {
+			return len
 		}
 		return 0
 	}

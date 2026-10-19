@@ -66,7 +66,7 @@ struct DownloadsListRow: View {
 				Text(verbatim: "\(Int(progress * 100))%")
 					.contentTransition(.numericText())
 				if speed > 0 {
-					Text(verbatim: String.localized("Speed: %@", speed.formattedByteCount))
+					Text(verbatim: String.localized("Speed: %@", arguments: speed.formattedByteCount))
 						.foregroundColor(.accentColor)
 				}
 				Spacer()

@@ -111,7 +111,7 @@ final class CertExpiryMonitor: ObservableObject {
 				} else {
 					content.title = String.localized("Certificate Expiring Soon")
 				}
-				content.body = String.localized("Expires in %lld days", max(cert.daysLeft, 0))
+				content.body = String.localized("Expires in %lld days", arguments: max(cert.daysLeft, 0))
 					+ " · " + cert.nickname
 				content.sound = .default
 
