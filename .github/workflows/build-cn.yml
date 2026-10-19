@@ -29,6 +29,11 @@ jobs:
         run: |
           rm -rf ~/Library/Caches/org.swift.swiftpm || true
           rm -rf ~/Library/org.swift.swiftpm || true
+          # 两份 Package.resolved 严重失同步（工程级含已移除包的陈旧 pin，
+          # 触发 IDESwiftPackageCore registerDependencyFileReferences 崩溃）
+          rm -f "Feather.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" || true
+          rm -f "Feather.xcworkspace/xcshareddata/swiftpm/Package.resolved" || true
+          echo "stale Package.resolved removed"
 
       - name: Resolve package dependencies
         run: |
