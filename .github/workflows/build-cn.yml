@@ -16,7 +16,7 @@ jobs:
       - name: Select Xcode
         run: |
           ls /Applications | grep -i xcode || true
-          for X in Xcode_26.6.0.app Xcode_26.5.0.app Xcode_26.4.0.app Xcode_26.3.0.app; do
+          for X in Xcode_26.2.0.app Xcode_26.2.app Xcode_26.1.1.app Xcode_26.0.1.app; do
             if [ -d "/Applications/$X" ]; then
               sudo xcode-select -s "/Applications/$X"
               echo "Using $X"
