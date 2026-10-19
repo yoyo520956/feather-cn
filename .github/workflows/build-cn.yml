@@ -1,0 +1,37 @@
+name: Build CN
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Prepare Xcode
+        run: sudo xcode-select -s /Applications/Xcode_26.3.0.app
+
+      - name: Build (iphoneos, unsigned)
+        run: |
+          set -o pipefail
+          agvtool new-version -all $(date +%Y%m%d%H%M)
+          make iphoneos 2>&1 | tee build.log | tail -30
+
+      - name: Show errors on failure
+        if: failure()
+        run: |
+          grep -i "error:" build.log | head -50 || true
+          tail -60 build.log || true
+
+      - name: Upload IPA artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: feather-cn-ipa
+          path: packages/*.ipa
+          if-no-files-found: error
